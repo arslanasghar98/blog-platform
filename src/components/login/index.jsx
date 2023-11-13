@@ -1,16 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { getBlogs, insertBlog, login } from "../../supabaseFunctions";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // Implement your login logic here
+    const signupData = await login({
+      email: email,
+      password: password,
+    });
+    console.log("Sign Up clicked", signupData);
     console.log("Login clicked");
+    // const dataBlog = await insertBlog({
+    //   user_id: signupData?.data?.user?.id,
+    //   title: signupData?.data?.user?.email,
+    //   content: signupData?.data?.user?.email,
+    // });
+    // console.log(dataBlog);
   };
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("wow");
+    // getBlogsData();
+  }, []);
+
+  const getBlogsData = async () => {
+    const blogs = await getBlogs(`*,Users(*)`);
+    console.log(blogs);
+  };
 
   return (
     <div style={{ paddingLeft: "20%" }}>

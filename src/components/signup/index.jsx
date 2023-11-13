@@ -1,13 +1,26 @@
 import { useState } from "react";
 import { TextField, Button } from "@mui/material";
+import { insertUser, signup } from "../../supabaseFunctions";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     // Implement your sign-up logic here
-    console.log("Sign Up clicked");
+    const signupData = await signup({
+      email: email,
+      password: password,
+    });
+
+    console.log("Sign Up clicked", signupData);
+    const data = await insertUser({
+      id: signupData?.data?.user?.id,
+      email: signupData?.data?.user?.email,
+      designation: "developer",
+    });
+
+    console.log(data);
   };
 
   return (
